@@ -45,6 +45,26 @@ If auto-detection picks the wrong address, pass it yourself:
 python sidemdm.py --ip 192.168.0.22 --port 8080
 ```
 
+## For coding agents (Claude Code, Codex, Grok, etc.)
+
+If you are an AI coding agent driving this for a user, you can do every computer-side step. You **cannot** do the physical phone steps — the user must do those. Run the steps in order and hand off clearly.
+
+**You can do (on the user's computer):**
+
+1. Check `python3 --version` is 3.10+. Install the one dependency: `pip install -r tools/requirements.txt` (use a venv if the environment is externally managed).
+2. Ensure a signed APK is in `dist/`. If `dist/` has no `.apk`, download the latest `sidemdm.apk` asset from the GitHub Releases page into `dist/` (e.g. `gh release download --repo lukeponio/sidemdm --pattern '*.apk' --dir dist`). If there is no release yet, build it (see **Build it yourself**) — this needs JDK 17 and Android SDK 36.
+3. Find the LAN IP the phone will reach (`ipconfig` on Windows, `ip addr`/`ifconfig` on macOS/Linux — a `192.168.x.x` or `10.x.x.x` address on the same network as the phone). Confirm it with the user if unsure.
+4. Start the server **as a long-running process the user can see** (its own terminal, or background with the output visible): `python sidemdm.py --ip <that IP>` (add `--port 8080` if 80/8080 is taken, which it will be if IIS or another web server is running — pick any free port). It prints a QR in the terminal and serves the APK until Ctrl+C.
+5. Make sure the phone can reach it: have the user open `http://<IP>:<port>/` in the phone's browser. If it fails, it's almost always the computer's firewall — tell the user to allow inbound TCP on that port for the private network.
+
+**The user must do (you cannot):** back up and factory-reset the phone; tap the welcome screen six times; join the same Wi-Fi; scan the QR you displayed; accept the work-profile setup; then open the app in the **Work** tab and tap **Remove Work Profile**. Spell these out and wait.
+
+**Optional verification you can run** (only if the user connects the phone by USB with ADB and USB debugging on — ask first, it's their device): `adb shell pm list users` and `adb shell dumpsys device_policy` confirm the work profile and, after removal, that no profile/device owner remains. Keep it read-only; never install, wipe, clear data, or run `dpm`/set-owner commands.
+
+**Do not** weaken TLS, switch the app to device-owner mode, or try to bypass "App blocked to protect your device" — if that appears, this method can't work on that phone, and you should say so plainly.
+
+There is also an [AGENTS.md](AGENTS.md) at the repo root with the same checklist for agents that look for it.
+
 ## How it stays safe
 
 - The app can **only** create a work profile (`PROVISIONING_MODE_MANAGED_PROFILE`). It refuses and cancels if the phone offers only full-device mode — it never becomes a device owner.
