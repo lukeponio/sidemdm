@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work profile enrollment QR</title>
+<style>
+  /* Self-contained: no CDN, fonts or scripts from outside this server (spec 3.2). */
+  :root { color-scheme: light; }
+  body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: #fff; color: #111; }
+  main { max-width: 640px; margin: 0 auto; padding: 24px 16px; text-align: center; }
+  img { width: min(90vw, 480px); height: auto; image-rendering: pixelated; background: #fff; }
+  ol { text-align: left; }
+  code { word-break: break-all; }
+  .warn { background: #fff4d6; padding: 12px; border-radius: 8px; text-align: left; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Work profile enrollment</h1>
+  <img src="/qr/enroll.png" alt="Provisioning QR code">
+  <p id="release">Release details: <a href="/qr/release.json">release.json</a></p>
+  <ol>
+    <li>Factory-reset phone on its first welcome screen, WAN and mobile data off.</li>
+    <li>Tap the welcome screen six times to open the QR scanner.</li>
+    <li>Join the provisioning Wi-Fi if asked, then scan this code.</li>
+    <li>Accept the work profile setup. The phone will say it belongs to an organization; that is expected for this setup method.</li>
+  </ol>
+  <p class="warn">Show this page on a different device's screen. Keep the brightness up and avoid glare.</p>
+</main>
+</body>
+</html>

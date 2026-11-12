@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Minimal policy set: only what profile removal needs (spec 5.1). -->
+<device-admin>
+    <uses-policies>
+        <wipe-data />
+    </uses-policies>
+</device-admin>

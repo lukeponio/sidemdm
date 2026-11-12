@@ -1,0 +1,18 @@
+# Static LAN-only provisioning server (spec 3.2). Not an MDM.
+# Pull the image once while online:  docker compose pull
+# Then run offline (HTTPS mode):     LAN_IP=192.168.50.10 docker compose up -d
+# Self-contained LAN HTTP mode:      LAN_IP=192.168.50.10 NGINX_CONF=nginx.lan-http.conf docker compose up -d
+services:
+  provisioning:
+    image: nginx:1.27-alpine
+    pull_policy: never          # never reach out to a registry at enrollment time
+    restart: unless-stopped
+    ports:
+      # Bind only to the LAN address; no WAN port-forward is ever configured (LAN-08).
+      - "${LAN_IP:?set LAN_IP to the server's private address}:443:443"
+      - "${LAN_IP}:80:80"
+    volumes:
+      - ./${NGINX_CONF:-nginx.conf}:/etc/nginx/nginx.conf:ro
+      - ./site:/srv/site:ro
+      - ./tls:/etc/nginx/tls:ro
+      - ./logs:/var/log/nginx
