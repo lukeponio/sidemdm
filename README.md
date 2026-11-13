@@ -34,7 +34,7 @@ A personal-use tool for phones **you own**. It has been verified on the devices 
 - 🧹 **Clean teardown** — one tap removes only the work profile; your personal apps, files and accounts stay. No factory reset to undo it.
 - 🔒 **Tamper-proof delivery** — the QR pins the APK by SHA-256, so a swapped file is rejected even over plain HTTP.
 - 🛡️ **Can't go rogue** — the app will only ever create a *work profile*; it refuses to become a full-device owner.
-- 💻 **Cross-platform** — Windows, macOS and Linux. One dependency (`segno`). No Android SDK, domain or certificate needed.
+- 💻 **No install dance** — Windows, macOS and Linux with just **Python 3.10+**. QR generation is bundled, so there's nothing to `pip install`, and no Android SDK, domain or certificate.
 
 ## Tested devices
 
@@ -55,7 +55,7 @@ You need a computer with **Python 3.10+** on the same Wi-Fi as an Android phone 
 **2.** Paste this prompt:
 
 ```
-Set up and run sidemdm for me so I can enroll an Android phone and then remove the work profile, ending with a clean unmanaged phone. Clone https://github.com/lukeponio/sidemdm, read its AGENTS.md, and do all the computer-side steps: install deps, put the latest sidemdm APK from the repo's GitHub Releases into dist/, detect my LAN IP, then run `python sidemdm.py --ip <that IP>` as a running process and show me the QR. Keep it running, then give me the exact phone steps I must do myself and wait.
+Set up and run sidemdm for me so I can enroll an Android phone and then remove the work profile, ending with a clean unmanaged phone. Clone https://github.com/lukeponio/sidemdm, read its AGENTS.md, and do all the computer-side steps (needs only Python 3.10+, nothing to pip install): put the latest sidemdm APK from the repo's GitHub Releases into dist/, detect my LAN IP, then run `python sidemdm.py --ip <that IP>` as a running process and show me the QR. Keep it running, then give me the exact phone steps I must do myself and wait.
 ```
 
 The agent handles the computer; it will then walk you through the phone steps (which only you can do).
@@ -63,7 +63,6 @@ The agent handles the computer; it will then walk you through the phone steps (w
 ### The manual way
 
 ```bash
-pip install -r tools/requirements.txt
 gh release download --repo lukeponio/sidemdm --pattern '*.apk' --dir dist   # or download the APK by hand
 python sidemdm.py
 ```

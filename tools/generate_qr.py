@@ -31,6 +31,11 @@ import sys
 from pathlib import Path
 from urllib.parse import urlsplit
 
+# Use the vendored segno (no pip install needed); fall back to an installed one.
+_VENDOR = str(Path(__file__).resolve().parent / "_vendor")
+if _VENDOR not in sys.path:
+    sys.path.insert(0, _VENDOR)
+
 DEFAULT_COMPONENT = "com.example.personalprofile/.AdminReceiver"
 APK_MIME = "application/vnd.android.package-archive"
 EXTRA = "android.app.extra."
