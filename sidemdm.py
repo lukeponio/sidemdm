@@ -63,6 +63,11 @@ def find_apk(explicit: str | None) -> Path:
     return candidates[0]
 
 
+def _safe(s) -> str:
+    """Drop non-printable chars so a crafted request can't inject terminal escapes into our log."""
+    return "".join(c if c.isprintable() else "�" for c in str(s))
+
+
 class Handler(http.server.SimpleHTTPRequestHandler):
     def guess_type(self, path):
         if str(path).endswith(".apk"):
@@ -70,7 +75,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         return super().guess_type(path)
 
     def log_message(self, fmt, *args):  # quiet, no client identifiers
-        sys.stderr.write(f"  {self.command} {self.path} -> {args[1]}\n")
+        code = args[1] if len(args) > 1 else "-"
+        sys.stderr.write(f"  {_safe(self.command)} {_safe(self.path)} -> {code}\n")
 
 
 def main(argv: list[str] | None = None) -> int:
