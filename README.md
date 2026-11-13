@@ -27,11 +27,6 @@ sidemdm turns the phone's built-in **six-tap QR** enterprise setup into somethin
 
 A personal-use tool for phones **you own**. It has been verified on the devices below; other models may behave differently.
 
-<p align="center">
-  <img src="docs/screens/teardown.gif" alt="Removing the work profile: app drawer Work tab, the Work Profile app, the two confirmations, then a clean home screen" width="260">
-  <br><em>The teardown: open the Work Profile app, tap Remove Work Profile, and the managed side is gone.</em>
-</p>
-
 ## Key Features
 
 - 🔌 **Fully local** — the APK is served from your computer over your LAN. No management server, no telemetry, and the app has no internet permission.
