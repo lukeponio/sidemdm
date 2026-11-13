@@ -71,7 +71,7 @@ python sidemdm.py
 
 ### Then, on the phone
 
-1. **Back up, then factory reset** the phone (enrollment only starts from first-run setup).
+1. **Factory reset** the phone — back it up first if it holds anything you want to keep (enrollment only starts from first-run setup).
 2. On the welcome screen, **tap six times** to open the QR scanner.
 3. **Scan the QR**, then join the **same Wi-Fi** as your computer when it asks.
 4. Accept the work-profile setup. A **Work** tab appears in your app drawer.
