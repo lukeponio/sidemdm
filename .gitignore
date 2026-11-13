@@ -13,8 +13,8 @@ server/logs/
 # Release outputs are kept in the immutable release folders, not in git
 release-*/
 # Generated enrollment artifacts (produced by sidemdm.py / tools/generate_qr.py)
-server/site/qr/enroll.png
-server/site/qr/release.json
+server/site/enroll.png
+server/site/release.json
 server/site/releases/*.apk
 __pycache__/
 *.pyc

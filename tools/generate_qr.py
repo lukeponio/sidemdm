@@ -258,8 +258,8 @@ def main(argv: list[str] | None = None) -> int:
 
         if a.site:
             publish_immutable(apk_out, a.site / "releases" / f"dpc-{version}.apk")
-            shutil.copyfile(out / "enrollment.png", a.site / "qr" / "enroll.png")
-            (a.site / "qr" / "release.json").write_text(json.dumps(
+            shutil.copyfile(out / "enrollment.png", a.site / "enroll.png")
+            (a.site / "release.json").write_text(json.dumps(
                 {"version": version, "url": url, "sha256_hex": hexdigest}, indent=2) + "\n")
 
         if a.verify:
