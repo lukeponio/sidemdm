@@ -19,7 +19,7 @@ You can perform every computer-side step; the phone steps are physical and must 
 ## The user must do (you cannot)
 
 Factory-reset the phone (back it up first if needed); tap the welcome screen six times; scan the QR you showed; join the same
-Wi-Fi when it asks; accept the work-profile setup; then open the app in the **Work** tab and tap **Remove Work Profile**.
+Wi-Fi when it asks; accept the work-profile setup; then open the **Work** tab in the app drawer, launch the app there and tap **Remove Work Profile**.
 Lay these out step by step and wait for the user between them.
 
 ## Optional read-only check (ask first; it's their device)

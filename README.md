@@ -75,7 +75,7 @@ python sidemdm.py
 2. On the welcome screen, **tap six times** to open the QR scanner.
 3. **Scan the QR**, then join the **same Wi-Fi** as your computer when it asks.
 4. Accept the work-profile setup. A **Work** tab appears in your app drawer.
-5. Open the **Work Profile** app there and tap **Remove Work Profile** (two confirmations).
+5. In your app drawer, open the **Work** tab, launch the **Work Profile** app there, and tap **Remove Work Profile** (two confirmations).
 
 Done: a clean, unmanaged phone. Press **Ctrl+C** to stop the server — it isn't needed after the download, and removal works with no network at all.
 
