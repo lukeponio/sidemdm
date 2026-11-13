@@ -24,18 +24,18 @@ Or set `DPC_KEYSTORE`, `DPC_KEYSTORE_PASSWORD`, `DPC_KEY_ALIAS`, `DPC_KEY_PASSWO
 Record the signer certificate SHA-256 once and pin it:
 
 ```bash
-apksigner verify --print-certs app/build/outputs/apk/release/app-release.apk
+apksigner verify --print-certs android/app/build/outputs/apk/release/app-release.apk
 ```
 
 ## Each release
 
-1. Bump `versionCode` and `versionName` in `app/build.gradle.kts`.
-2. Build and test: `./gradlew :app:testDebugUnitTest :app:lintRelease :app:assembleRelease`.
+1. Bump `versionCode` and `versionName` in `android/app/build.gradle.kts`.
+2. Build and test (from `android/`): `(cd android && ./gradlew :app:testDebugUnitTest :app:lintRelease :app:assembleRelease)`.
 3. Safety grep (must print nothing):
-   `grep -rnE "\.wipeDevice\(|getParentProfileInstance|clearProfileOwner\(|android.permission.INTERNET" app/src/main`
+   `grep -rnE "\.wipeDevice\(|getParentProfileInstance|clearProfileOwner\(|android.permission.INTERNET" android/app/src/main`
 4. Generate and publish:
    ```bash
-   python tools/generate_qr.py --apk app/build/outputs/apk/release/app-release.apk \
+   python tools/generate_qr.py --apk android/app/build/outputs/apk/release/app-release.apk \
      --version 1.0.1 --host enroll.yourdomain.tld --site server/site \
      --pin-cert-sha256 <hex from apksigner>
    ```

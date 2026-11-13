@@ -96,11 +96,12 @@ Three small pieces, no backend:
 Prefer not to trust a prebuilt binary? Build and sign your own, then drop it in `dist/`:
 
 ```bash
+cd android
 ./gradlew :app:testDebugUnitTest :app:assembleRelease   # Windows: gradlew.bat ...
-cp app/build/outputs/apk/release/app-release.apk dist/sidemdm-1.0.1.apk
+cp app/build/outputs/apk/release/app-release.apk ../dist/sidemdm-1.0.1.apk
 ```
 
-Signing is read from `keystore.properties` or environment variables — see [docs/release.md](docs/release.md). Needs JDK 17 and Android SDK Platform 36.
+The Android project lives in [`android/`](android/). Signing is read from `android/keystore.properties` or environment variables — see [docs/release.md](docs/release.md). Needs JDK 17 and Android SDK Platform 36.
 
 ## Known limits
 
@@ -115,7 +116,7 @@ Signing is read from `keystore.properties` or environment variables — see [doc
 | Path | What it is |
 |---|---|
 | `sidemdm.py`, `run.sh`, `run.bat` | The launcher: detect IP, build QR, serve the APK. |
-| `app/` | The Android Device Policy Controller (Kotlin). |
+| `android/` | The Android Device Policy Controller (Kotlin) and its Gradle build. |
 | `tools/generate_qr.py` | QR + immutable release builder, with a LAN-safety check. |
 | `server/` | Optional Docker/nginx server (plain-HTTP and HTTPS configs). |
 | `docs/` | [Offline LAN setup](docs/offline-lan-setup.md) · [release](docs/release.md) · [testing](docs/testing.md). |

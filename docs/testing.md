@@ -4,7 +4,7 @@
 
 | Check | Command | Covers |
 |---|---|---|
-| DPC unit tests | `./gradlew :app:testDebugUnitTest` | AT-04 (only fully managed allowed → cancel), removal predicates (FR-12) |
+| DPC unit tests | `(cd android && ./gradlew :app:testDebugUnitTest)` | AT-04 (only fully managed allowed → cancel), removal predicates (FR-12) |
 | QR tool tests | `python -m unittest tools/test_generate_qr.py` | FR-14 URL rules, checksum format, immutability (AT-11 guard) |
 | Live server check | `python tools/generate_qr.py ... --verify` | LAN-03, OFF-02, OFF-03, AT-11 against the real host |
 | Safety grep | see [release.md](release.md) step 3 | FR-09, NFR-05 |

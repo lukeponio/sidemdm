@@ -3,7 +3,7 @@
 
 Usage (typical):
   python tools/generate_qr.py \
-      --apk app/build/outputs/apk/release/app-release.apk \
+      --apk android/app/build/outputs/apk/release/app-release.apk \
       --version 1.0.0 --host enroll.devices.example.com \
       --site server/site --verify
 
