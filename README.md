@@ -1,135 +1,106 @@
-# sidemdm
+<h1 align="center">sidemdm</h1>
 
-**Sideload a work profile onto your own Android phone from your own computer, then remove it — no cloud, no account, no company.**
+<p align="center">
+  Enroll an Android phone from your own computer, then hand it back <b>unmanaged</b>.<br>
+  No cloud. No account. No company. Just your LAN.
+</p>
 
-sidemdm turns the phone's built-in "six-tap QR" enterprise setup into something you run entirely on your own LAN. You scan a QR shown by your computer, the phone creates a work profile owned by this app, and then you tap **Remove Work Profile**. You end up with an ordinary, unmanaged phone whose personal side was never touched.
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT">
+  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg" alt="Platforms">
+  <img src="https://img.shields.io/badge/python-3.10%2B-green.svg" alt="Python 3.10+">
+  <img src="https://img.shields.io/github/v/release/lukeponio/sidemdm?color=orange" alt="Latest release">
+</p>
 
-It is three small things: a tiny Android app (the Device Policy Controller), a one-command launcher that serves it over your LAN and prints the QR, and a QR/release tool. There is no management server, no telemetry, and the app has no internet permission.
+<p align="center">
+  <a href="#key-features">Key Features</a> &nbsp;•&nbsp;
+  <a href="#how-to-use">How To Use</a> &nbsp;•&nbsp;
+  <a href="#download">Download</a> &nbsp;•&nbsp;
+  <a href="#how-it-works">How It Works</a> &nbsp;•&nbsp;
+  <a href="#build-it-yourself">Build</a> &nbsp;•&nbsp;
+  <a href="#credits">Credits</a> &nbsp;•&nbsp;
+  <a href="#license">License</a>
+</p>
 
-> **Status: works, but barely tested.** It has been run end to end on exactly one device — a **Motorola moto g power (2026)** on Android 16 — with the computer on the internet. Whether it works on other phones, and whether the fully offline case works, is **unproven**. See [Known limits](#known-limits). This is a personal-use tool for phones **you own**.
+sidemdm turns the phone's built-in **six-tap QR** enterprise setup into something you run entirely on your own network. Your computer shows a QR, the phone creates a work profile owned by a tiny app, and then you tap **Remove Work Profile**. You end up with an ordinary, unmanaged phone whose personal side was never touched.
 
-**Runs on:** Windows · macOS · Linux (any machine with Python 3.10+). The phone must be an Android device you can factory reset.
+> ⚠️ **Status: works, but barely tested.** Run end to end on exactly one device — a **Motorola moto g power (2026)** on Android 16, computer online. Other phones and the fully offline case are **unproven** (see [Known limits](#known-limits)). A personal-use tool for phones **you own**.
 
-## Run it with your AI agent
+## Key Features
 
-Open your agent **in an empty folder**, then paste the prompt below. It does every computer-side step and then tells you the phone steps (which only you can do).
+- 🔌 **Fully local** — the APK is served from your computer over your LAN. No management server, no telemetry, and the app has no internet permission.
+- 🤖 **Agent-ready** — paste one prompt into Claude Code, Codex or Grok and it does every computer-side step for you.
+- 🧹 **Clean teardown** — one tap removes only the work profile; your personal apps, files and accounts stay. No factory reset to undo it.
+- 🔒 **Tamper-proof delivery** — the QR pins the APK by SHA-256, so a swapped file is rejected even over plain HTTP.
+- 🛡️ **Can't go rogue** — the app will only ever create a *work profile*; it refuses to become a full-device owner.
+- 💻 **Cross-platform** — Windows, macOS and Linux. One dependency (`segno`). No Android SDK, domain or certificate needed.
 
-**1. Start your agent** in a terminal:
+## How To Use
 
-<details open>
-<summary><b>Claude Code</b></summary>
+You need a computer with **Python 3.10+** on the same Wi-Fi as an Android phone you're willing to **factory reset**.
+
+### The easy way — let your AI agent do it
+
+**1.** Start your agent in an empty folder: run `claude` (Claude Code), `codex` (Codex) or `grok` (Grok CLI).
+
+**2.** Paste this prompt:
 
 ```
-claude
-```
-</details>
-
-<details>
-<summary><b>Codex</b></summary>
-
-```
-codex
-```
-</details>
-
-<details>
-<summary><b>Grok CLI</b></summary>
-
-```
-grok
-```
-</details>
-
-**2. Paste this prompt:**
-
-```
-Set up and run sidemdm for me on this computer so I can enroll an Android phone and then remove the work profile, ending with a clean unmanaged phone. Clone https://github.com/lukeponio/sidemdm and read its AGENTS.md, then do all the computer-side steps: ensure Python 3.10+, install deps (pip install -r tools/requirements.txt), make sure a signed APK is in dist/ (download the latest sidemdm.apk from the repo's GitHub Releases into dist/, or build it per docs/release.md if there is no release), detect my computer's LAN IP on the same network as the phone, then run `python sidemdm.py --ip <that IP>` (use --port to pick a free port if needed) as a running process and show me the QR it prints. Keep the server running. Then give me the exact phone steps I must do myself and wait.
+Set up and run sidemdm for me so I can enroll an Android phone and then remove the work profile, ending with a clean unmanaged phone. Clone https://github.com/lukeponio/sidemdm, read its AGENTS.md, and do all the computer-side steps: install deps, put the latest sidemdm APK from the repo's GitHub Releases into dist/, detect my LAN IP, then run `python sidemdm.py --ip <that IP>` as a running process and show me the QR. Keep it running, then give me the exact phone steps I must do myself and wait.
 ```
 
-Works on **Windows, macOS and Linux**. Prefer to run it yourself without an agent? See [Use it (the short version)](#use-it-the-short-version).
+The agent handles the computer; it will then walk you through the phone steps (which only you can do).
 
-## Why
-
-Android's QR enrollment is built for companies. If you just want a throwaway work profile — or you want to prove to yourself that a phone can be enrolled and then cleanly un-enrolled without a factory data loss on the personal side — there was no simple local way to do it. sidemdm is that local way.
-
-## What you need
-
-- A computer (Windows, macOS or Linux) on the same Wi-Fi/LAN as the phone.
-- **Python 3.10+** and one package: `pip install -r tools/requirements.txt`.
-- The signed APK — grab the latest `sidemdm-*.apk` from the [Releases](https://github.com/lukeponio/sidemdm/releases) page into `dist/` (CLI: `gh release download --repo lukeponio/sidemdm --pattern '*.apk' --dir dist`).
-- An Android phone you are willing to **factory reset** (enrollment starts from the first-run setup screen).
-
-That's it. No Android SDK, no domain name, no HTTPS certificate.
-
-## Use it (the short version)
+### The manual way
 
 ```bash
 pip install -r tools/requirements.txt
-# put the APK in dist/ (from Releases): gh release download --repo lukeponio/sidemdm --pattern '*.apk' --dir dist
+gh release download --repo lukeponio/sidemdm --pattern '*.apk' --dir dist   # or download the APK by hand
 python sidemdm.py
 ```
 
-`sidemdm.py` detects your computer's LAN IP, serves the APK, and prints a QR right in the terminal. Then, on the phone:
+`sidemdm.py` finds your LAN IP, serves the APK, and prints a QR in the terminal. Pass `--ip 192.168.0.22 --port 8080` if it picks the wrong address or the port is busy.
 
-1. **Back up the phone, then factory reset it.** (Enrollment only works from the first-run setup.)
-2. On the welcome screen, **tap the screen six times** to open the QR scanner.
-3. If asked, join the **same Wi-Fi** as your computer, then **scan the QR** in your terminal.
-4. Accept the work-profile setup and finish. A **Work** tab appears in your app drawer.
-5. Open the **Work Profile** app in that tab and tap **Remove Work Profile** (two confirmations). The work profile is deleted; your personal profile stays.
+### Then, on the phone
 
-Press **Ctrl+C** in the terminal to stop the server. It isn't needed after the APK downloads, and removal needs no network at all.
+1. **Back up, then factory reset** the phone (enrollment only starts from first-run setup).
+2. On the welcome screen, **tap six times** to open the QR scanner.
+3. Join the **same Wi-Fi** as your computer if asked, then **scan the QR**.
+4. Accept the work-profile setup. A **Work** tab appears in your app drawer.
+5. Open the **Work Profile** app there and tap **Remove Work Profile** (two confirmations).
 
-If auto-detection picks the wrong address, pass it yourself:
+Done: a clean, unmanaged phone. Press **Ctrl+C** to stop the server — it isn't needed after the download, and removal works with no network at all.
 
-```bash
-python sidemdm.py --ip 192.168.0.22 --port 8080
-```
+## Download
 
-## For coding agents (Claude Code, Codex, Grok, etc.)
+Grab the signed APK from the [**Releases**](https://github.com/lukeponio/sidemdm/releases/latest) page and drop it in `dist/`. The QR verifies the exact file by SHA-256, so you always know you're serving the right build.
 
-If you are an AI coding agent driving this for a user, you can do every computer-side step. You **cannot** do the physical phone steps — the user must do those. Run the steps in order and hand off clearly.
+## How It Works
 
-**You can do (on the user's computer):**
+Three small pieces, no backend:
 
-1. Check `python3 --version` is 3.10+. Install the one dependency: `pip install -r tools/requirements.txt` (use a venv if the environment is externally managed).
-2. Ensure a signed APK is in `dist/`. If `dist/` has no `.apk`, download the latest `sidemdm.apk` asset from the GitHub Releases page into `dist/` (e.g. `gh release download --repo lukeponio/sidemdm --pattern '*.apk' --dir dist`). If there is no release yet, build it (see **Build it yourself**) — this needs JDK 17 and Android SDK 36.
-3. Find the LAN IP the phone will reach (`ipconfig` on Windows, `ip addr`/`ifconfig` on macOS/Linux — a `192.168.x.x` or `10.x.x.x` address on the same network as the phone). Confirm it with the user if unsure.
-4. Start the server **as a long-running process the user can see** (its own terminal, or background with the output visible): `python sidemdm.py --ip <that IP>` (add `--port 8080` if 80/8080 is taken, which it will be if IIS or another web server is running — pick any free port). It prints a QR in the terminal and serves the APK until Ctrl+C.
-5. Make sure the phone can reach it: have the user open `http://<IP>:<port>/` in the phone's browser. If it fails, it's almost always the computer's firewall — tell the user to allow inbound TCP on that port for the private network.
+- **The app** (`app/`) — a Kotlin Device Policy Controller. It only ever selects `PROVISIONING_MODE_MANAGED_PROFILE` and cancels if the phone offers just full-device mode, so it can never become a device owner. The one destructive action, **Remove Work Profile**, calls `wipeData` on the work profile alone — after re-checking it truly owns a managed profile, behind two confirmations — and never a device-wide wipe. No internet permission.
+- **The launcher** (`sidemdm.py`) — detects your LAN IP, builds the provisioning QR, and serves the APK over HTTP on your network.
+- **The QR tool** (`tools/generate_qr.py`) — computes the checksum, builds an immutable release, and refuses non-LAN or unsafe URLs.
 
-**The user must do (you cannot):** back up and factory-reset the phone; tap the welcome screen six times; join the same Wi-Fi; scan the QR you displayed; accept the work-profile setup; then open the app in the **Work** tab and tap **Remove Work Profile**. Spell these out and wait.
+## Build It Yourself
 
-**Optional verification you can run** (only if the user connects the phone by USB with ADB and USB debugging on — ask first, it's their device): `adb shell pm list users` and `adb shell dumpsys device_policy` confirm the work profile and, after removal, that no profile/device owner remains. Keep it read-only; never install, wipe, clear data, or run `dpm`/set-owner commands.
-
-**Do not** weaken TLS, switch the app to device-owner mode, or try to bypass "App blocked to protect your device" — if that appears, this method can't work on that phone, and you should say so plainly.
-
-There is also an [AGENTS.md](AGENTS.md) at the repo root with the same checklist for agents that look for it.
-
-## How it stays safe
-
-- The app can **only** create a work profile (`PROVISIONING_MODE_MANAGED_PROFILE`). It refuses and cancels if the phone offers only full-device mode — it never becomes a device owner.
-- The only destructive action is **Remove Work Profile**, which calls `wipeData` on the work profile alone, after re-checking it really owns a managed profile, behind two confirmations. It never calls a device-wide wipe.
-- The QR pins the APK by **SHA-256**, so a tampered or wrong file is rejected even over plain HTTP.
-- The app requests **no internet permission** and phones home to nothing.
-
-## Build it yourself
-
-Prefer not to trust a prebuilt binary? Build and sign your own APK, then drop it in `dist/`:
+Prefer not to trust a prebuilt binary? Build and sign your own, then drop it in `dist/`:
 
 ```bash
 ./gradlew :app:testDebugUnitTest :app:assembleRelease   # Windows: gradlew.bat ...
 cp app/build/outputs/apk/release/app-release.apk dist/sidemdm-1.0.1.apk
 ```
 
-Signing is read from `keystore.properties` or environment variables — see [docs/release.md](docs/release.md). Requires JDK 17 and Android SDK Platform 36.
+Signing is read from `keystore.properties` or environment variables — see [docs/release.md](docs/release.md). Needs JDK 17 and Android SDK Platform 36.
 
 ## Known limits
 
-- **One device, one condition.** Verified only on a moto g power (2026), Android 16, with the computer online. Other OEMs and the no-internet case are untested. Your phone's setup wizard may behave differently.
-- **Plain HTTP.** The default mode serves the APK over HTTP on your LAN (the SHA-256 pin is what guarantees integrity). Some firmware may refuse an HTTP provisioning download. An HTTPS mode exists for that case — see [docs/offline-lan-setup.md](docs/offline-lan-setup.md) — but it needs a hostname and certificate.
-- **Approved-DPC allowlist.** Google only permits approved enterprise DPCs during enrollment on some devices/firmware. If your phone shows "App blocked to protect your device," this method won't work on it, and there is no bypass.
-- **Factory reset required.** The six-tap flow only starts from first-run setup. Back up anything important first.
-- **No warranty.** See [LICENSE](LICENSE). Use on phones you own and data you've backed up.
+- **One device, one condition.** Verified only on a moto g power (2026), Android 16, computer online. Other OEMs and the no-internet case are untested.
+- **Plain HTTP by default.** The SHA-256 pin guarantees integrity, but some firmware may refuse an HTTP provisioning download. An HTTPS mode exists ([docs/offline-lan-setup.md](docs/offline-lan-setup.md)) but needs a hostname and certificate.
+- **Approved-DPC allowlist.** Some devices only allow Google-approved enterprise DPCs. If you see "App blocked to protect your device," this method won't work there, and there's no bypass.
+- **Factory reset required** to start the six-tap flow. Back up first.
+- **No warranty** — see [LICENSE](LICENSE). Use on phones you own and data you've backed up.
 
 ## Repository layout
 
@@ -139,9 +110,18 @@ Signing is read from `keystore.properties` or environment variables — see [doc
 | `app/` | The Android Device Policy Controller (Kotlin). |
 | `tools/generate_qr.py` | QR + immutable release builder, with a LAN-safety check. |
 | `server/` | Optional Docker/nginx server (plain-HTTP and HTTPS configs). |
-| `docs/` | [Offline LAN setup](docs/offline-lan-setup.md), [release](docs/release.md), [testing](docs/testing.md). |
-| `dist/` | Where the prebuilt `sidemdm.apk` goes. |
+| `docs/` | [Offline LAN setup](docs/offline-lan-setup.md) · [release](docs/release.md) · [testing](docs/testing.md). |
+| [`AGENTS.md`](AGENTS.md) | Checklist for AI coding agents driving this. |
+| `dist/` | Where the prebuilt APK goes. |
+
+## Credits
+
+Built with [Kotlin](https://kotlinlang.org/) and the Android `DevicePolicyManager` API, [segno](https://github.com/heuer/segno) for QR generation, and [nginx](https://nginx.org/) for the optional server. README format inspired by [Markdownify](https://github.com/amitmerchant1990/electron-markdownify).
 
 ## License
 
-[MIT](LICENSE).
+[MIT](LICENSE)
+
+---
+
+> Made for people who want to understand — and undo — what "enrollment" does to their own phone.
