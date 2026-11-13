@@ -8,6 +8,46 @@ It is three small things: a tiny Android app (the Device Policy Controller), a o
 
 > **Status: works, but barely tested.** It has been run end to end on exactly one device — a **Motorola moto g power (2026)** on Android 16 — with the computer on the internet. Whether it works on other phones, and whether the fully offline case works, is **unproven**. See [Known limits](#known-limits). This is a personal-use tool for phones **you own**.
 
+**Runs on:** Windows · macOS · Linux (any machine with Python 3.10+). The phone must be an Android device you can factory reset.
+
+## Run it with your AI agent
+
+Open your agent **in an empty folder**, then paste the prompt below. It does every computer-side step and then tells you the phone steps (which only you can do).
+
+**1. Start your agent** in a terminal:
+
+<details open>
+<summary><b>Claude Code</b></summary>
+
+```
+claude
+```
+</details>
+
+<details>
+<summary><b>Codex</b></summary>
+
+```
+codex
+```
+</details>
+
+<details>
+<summary><b>Grok CLI</b></summary>
+
+```
+grok
+```
+</details>
+
+**2. Paste this prompt:**
+
+```
+Set up and run sidemdm for me on this computer so I can enroll an Android phone and then remove the work profile, ending with a clean unmanaged phone. Clone https://github.com/lukeponio/sidemdm and read its AGENTS.md, then do all the computer-side steps: ensure Python 3.10+, install deps (pip install -r tools/requirements.txt), make sure a signed APK is in dist/ (download the latest sidemdm.apk from the repo's GitHub Releases into dist/, or build it per docs/release.md if there is no release), detect my computer's LAN IP on the same network as the phone, then run `python sidemdm.py --ip <that IP>` (use --port to pick a free port if needed) as a running process and show me the QR it prints. Keep the server running. Then give me the exact phone steps I must do myself and wait.
+```
+
+Works on **Windows, macOS and Linux**. Prefer to run it yourself without an agent? See [Use it (the short version)](#use-it-the-short-version).
+
 ## Why
 
 Android's QR enrollment is built for companies. If you just want a throwaway work profile — or you want to prove to yourself that a phone can be enrolled and then cleanly un-enrolled without a factory data loss on the personal side — there was no simple local way to do it. sidemdm is that local way.
