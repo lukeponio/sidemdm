@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Work profile enrollment QR</title>
+<title>sidemdm — enroll</title>
 <style>
   /* Self-contained: no CDN, fonts or scripts from outside this server (spec 3.2). */
   :root { color-scheme: light; }
@@ -13,20 +13,24 @@
   ol { text-align: left; }
   code { word-break: break-all; }
   .warn { background: #fff4d6; padding: 12px; border-radius: 8px; text-align: left; }
+  .note { color: #555; font-size: 14px; }
 </style>
 </head>
 <body>
 <main>
-  <h1>Work profile enrollment</h1>
+  <h1>sidemdm</h1>
+  <p>Enroll an Android phone from this computer, then hand it back <b>unmanaged</b>.</p>
   <img src="/qr/enroll.png" alt="Provisioning QR code">
   <p id="release">Release details: <a href="/qr/release.json">release.json</a></p>
   <ol>
-    <li>Factory-reset phone on its first welcome screen, WAN and mobile data off.</li>
-    <li>Tap the welcome screen six times to open the QR scanner.</li>
-    <li>Join the provisioning Wi-Fi if asked, then scan this code.</li>
-    <li>Accept the work profile setup. The phone will say it belongs to an organization; that is expected for this setup method.</li>
+    <li>Back up, then factory-reset the phone. Enrollment only starts from the first-run welcome screen.</li>
+    <li>On the welcome screen, tap six times to open the QR scanner.</li>
+    <li>Join the same Wi-Fi as this computer if asked, then scan this code.</li>
+    <li>Accept the work-profile setup. A <b>Work</b> tab appears in your app drawer.</li>
+    <li>Open the Work Profile app there and tap <b>Remove Work Profile</b> (two confirmations). You end up with a clean, unmanaged phone that keeps its personal side.</li>
   </ol>
-  <p class="warn">Show this page on a different device's screen. Keep the brightness up and avoid glare.</p>
+  <p class="warn">If you see <b>"App blocked to protect your device,"</b> this method won't work on that phone and there's no bypass. Served over plain HTTP on your LAN — the QR pins the APK by SHA-256, so a swapped file is rejected.</p>
+  <p class="note">The server is only needed for the download; removal works with no network at all. Show this page on another device's screen, keep the brightness up and avoid glare.</p>
 </main>
 </body>
 </html>
