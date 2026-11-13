@@ -14,6 +14,7 @@
 
 <p align="center">
   <a href="#key-features">Key Features</a> &nbsp;•&nbsp;
+  <a href="#tested-devices">Tested Devices</a> &nbsp;•&nbsp;
   <a href="#how-to-use">How To Use</a> &nbsp;•&nbsp;
   <a href="#download">Download</a> &nbsp;•&nbsp;
   <a href="#how-it-works">How It Works</a> &nbsp;•&nbsp;
@@ -24,7 +25,7 @@
 
 sidemdm turns the phone's built-in **six-tap QR** enterprise setup into something you run entirely on your own network. Your computer shows a QR, the phone creates a work profile owned by a tiny app, and then you tap **Remove Work Profile**. You end up with an ordinary, unmanaged phone whose personal side was never touched.
 
-> ⚠️ **Status: works, but barely tested.** Run end to end on exactly one device — a **Motorola moto g power (2026)** on Android 16, computer online. Other phones and the fully offline case are **unproven** (see [Known limits](#known-limits)). A personal-use tool for phones **you own**.
+A personal-use tool for phones **you own**. It has been verified on the devices below; other models may behave differently.
 
 ## Key Features
 
@@ -34,6 +35,14 @@ sidemdm turns the phone's built-in **six-tap QR** enterprise setup into somethin
 - 🔒 **Tamper-proof delivery** — the QR pins the APK by SHA-256, so a swapped file is rejected even over plain HTTP.
 - 🛡️ **Can't go rogue** — the app will only ever create a *work profile*; it refuses to become a full-device owner.
 - 💻 **Cross-platform** — Windows, macOS and Linux. One dependency (`segno`). No Android SDK, domain or certificate needed.
+
+## Tested devices
+
+| Device | Android / API | Build / firmware | Enroll | Remove | Notes |
+|---|---|---|---|---|---|
+| Motorola moto g power (2026) | Android 16 · API 36 | `W1WEOS36.48-22-3-3-4-2` (patch 2026-04-01) | ✅ | ✅ | Served over plain HTTP on the LAN, computer online. |
+
+Verified a device yourself? Open a PR adding a row with the model, Android/API level, and `adb shell getprop ro.build.fingerprint`.
 
 ## How To Use
 
@@ -96,7 +105,7 @@ Signing is read from `keystore.properties` or environment variables — see [doc
 
 ## Known limits
 
-- **One device, one condition.** Verified only on a moto g power (2026), Android 16, computer online. Other OEMs and the no-internet case are untested.
+- **Short tested list.** See [Tested devices](#tested-devices). Other OEMs and the no-internet case are untested.
 - **Plain HTTP by default.** The SHA-256 pin guarantees integrity, but some firmware may refuse an HTTP provisioning download. An HTTPS mode exists ([docs/offline-lan-setup.md](docs/offline-lan-setup.md)) but needs a hostname and certificate.
 - **Approved-DPC allowlist.** Some devices only allow Google-approved enterprise DPCs. If you see "App blocked to protect your device," this method won't work there, and there's no bypass.
 - **Factory reset required** to start the six-tap flow. Back up first.
