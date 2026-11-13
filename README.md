@@ -56,7 +56,7 @@ Android's QR enrollment is built for companies. If you just want a throwaway wor
 
 - A computer (Windows, macOS or Linux) on the same Wi-Fi/LAN as the phone.
 - **Python 3.10+** and one package: `pip install -r tools/requirements.txt`.
-- The signed `sidemdm.apk` — download it from the [Releases](../../releases) page into `dist/`.
+- The signed APK — grab the latest `sidemdm-*.apk` from the [Releases](https://github.com/lukeponio/sidemdm/releases) page into `dist/` (CLI: `gh release download --repo lukeponio/sidemdm --pattern '*.apk' --dir dist`).
 - An Android phone you are willing to **factory reset** (enrollment starts from the first-run setup screen).
 
 That's it. No Android SDK, no domain name, no HTTPS certificate.
@@ -65,7 +65,7 @@ That's it. No Android SDK, no domain name, no HTTPS certificate.
 
 ```bash
 pip install -r tools/requirements.txt
-# put sidemdm.apk in dist/ (from the Releases page)
+# put the APK in dist/ (from Releases): gh release download --repo lukeponio/sidemdm --pattern '*.apk' --dir dist
 python sidemdm.py
 ```
 
